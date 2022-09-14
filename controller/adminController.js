@@ -1,3 +1,4 @@
+/* This is importing the required modules. */
 const Admin = require('../model/admin');
 const User = require('../model/user');
 const bcrypt = require('bcryptjs');
@@ -5,10 +6,18 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
 
+
+/**
+ * It checks if there's an admin in the database, if there is, it returns an error, if there isn't, it
+ * creates a new admin.
+ * @param req - request
+ * @param res - the response object
+ * @returns a promise.
+ */
 const register = async (req, res) => {
     const { username, email, password } = req.body;
-    const admin = await Admin.findOne({ email });
-    if (admin) return res.status(400).send('Admin already registered');
+    const isExisting = await Admin.countDocuments === 1;
+    if (isExisting) return res.status(400).send('Admin already exists');
     try {
         const hash = await bcrypt.hash(password, 10);
         const newAdmin = new Admin({
@@ -24,6 +33,14 @@ const register = async (req, res) => {
     }
 }
 
+/**
+ * It takes the email and password from the request body, finds the admin in the database, compares the
+ * password with the one in the database, and if it's valid, it signs a token and sends it back to the
+ * client.
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The token is being returned.
+ */
 const login = async (req, res) => {
     const { email, password } = req.body;
     const admin = await Admin.findOne({ email });
@@ -34,19 +51,13 @@ const login = async (req, res) => {
     res.status(200).json({ message: 'Admin logged in successfully', token });
 }
 
-const getUsers = async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
-    try {
-        if (decoded.role === 'admin') {
-            const users = await User.find();
-            res.send(users);
-        }
-    } catch (err) {
-        res.status(500).json({ message: 'Something went wrong' });
-    }
-}
 
+
+/**
+ * It deletes a user from the database if the user is an admin.
+ * @param req - The request object.
+ * @param res - The response object.
+ */
 const deleteUser = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -60,6 +71,11 @@ const deleteUser = async (req, res) => {
     }
 }
 
+/**
+ * It gets a user by id, but only if the user is an admin.
+ * @param req - The request object.
+ * @param res - the response object
+ */
 const getUser = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -73,6 +89,13 @@ const getUser = async (req, res) => {
     }
 }
 
+/**
+ * It takes the email from the request body, finds the admin with that email, creates a token, saves
+ * the token to the database, sends an email with a link to reset the password, and returns a message
+ * to the user
+ * @param req - The request object.
+ * @param res - the response object
+ */
 const forgotPassword = async (req, res) => {
     const { email } = req.body;
     try {
@@ -112,6 +135,14 @@ const forgotPassword = async (req, res) => {
     }
 }
 
+/**
+ * It takes a password and a token from the request body and then finds the admin with the matching
+ * token. If the admin is found, it hashes the password and saves the admin. If the admin is not found,
+ * it returns an error
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns a function.
+ */
 const resetPassword = async (req, res) => {
     const { password } = req.body;
     const token = req.params.token;
@@ -128,4 +159,4 @@ const resetPassword = async (req, res) => {
     }
 }
 
-module.exports = { register, login, getUsers, getUser, deleteUser, forgotPassword, resetPassword }
+module.exports = { register, login, forgotPassword, resetPassword }

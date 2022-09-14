@@ -1,6 +1,11 @@
+/* Requiring the dotenv package and then calling the config() method on it. */
 const mongoose = require('mongoose')
 require('dotenv').config()
 
+/**
+ * This function connects to the MongoDB database using the Mongoose library and the MongoDB URI stored
+ * in the .env file.
+ */
 const connectDB = () => {
     mongoose.connect(
         process.env.MONGO_URI,

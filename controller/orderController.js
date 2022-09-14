@@ -212,6 +212,13 @@ const getOrdersByDate = async (req, res) => {
     }
 }
 
+/**
+ * It takes an email address from the request body, and then it finds all the orders that match that
+ * email address, and then it sorts them by the date they were created, and then it sends a response
+ * with the orders.
+ * @param req - request
+ * @param res - the response object
+ */
 const getOrdersByEmail = async (req, res) => {
     const { email } = req.body
     try {
@@ -222,5 +229,6 @@ const getOrdersByEmail = async (req, res) => {
     }
 }
 
+/* Exporting all the functions in the file. */
 module.exports = {getMenus, addMenu, getMenu, getOrders, order, deleteOrder, getOrder, getOrders, deleteMenu, updateMenu, updateOrder, getOrdersByUser, getOrdersByDate, getOrdersByEmail}
 
