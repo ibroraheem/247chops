@@ -6,6 +6,6 @@ const {getMenus, getMenu, order, getOrdersByEmail} = require('../controller/orde
 router.get('/menu', getMenus)
 router.get('/menu/:id', getMenu)
 router.post('/order', order)
-router.get('/order', getOrdersByEmail)
+router.get('/orders/:email', getOrdersByEmail)
 
 module.exports = router
