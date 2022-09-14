@@ -52,49 +52,6 @@ const login = async (req, res) => {
 
 
 
-/**
- * It deletes a user from the database if the user is an admin.
- * @param req - The request object.
- * @param res - The response object.
- */
-const deleteUser = async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
-    try {
-        if (decoded.role === 'admin') {
-            const user = await User.findByIdAndDelete(req.params.id);
-            res.status(200).json({ message: 'User deleted successfully' });
-        }
-    } catch (err) {
-        res.status(500).json({ message: 'Something went wrong' });
-    }
-}
-
-/**
- * It gets a user by id, but only if the user is an admin.
- * @param req - The request object.
- * @param res - the response object
- */
-const getUser = async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
-    try {
-        if (decoded.role === 'admin') {
-            const user = await User.findById(req.params.id);
-            res.status(200).json({ message: 'User fetched successfully', user });
-        }
-    } catch (err) {
-        res.status(500).json({ message: 'Something went wrong' });
-    }
-}
-
-/**
- * It takes the email from the request body, finds the admin with that email, creates a token, saves
- * the token to the database, sends an email with a link to reset the password, and returns a message
- * to the user
- * @param req - The request object.
- * @param res - the response object
- */
 const forgotPassword = async (req, res) => {
     const { email } = req.body;
     try {
