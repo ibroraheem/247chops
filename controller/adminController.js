@@ -1,6 +1,5 @@
 /* This is importing the required modules. */
 const Admin = require('../model/admin');
-const User = require('../model/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');

@@ -220,7 +220,7 @@ const getOrdersByDate = async (req, res) => {
  * @param res - the response object
  */
 const getOrdersByEmail = async (req, res) => {
-    const { email } = req.body
+    const { email } = req.params.email
     try {
         const orders = await Order.find({ customerEmail: email }).sort({createdAt: 'asc'})
         res.status(200).json({ message: 'Orders fetched successfully', orders })
