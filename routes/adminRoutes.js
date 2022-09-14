@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { register, login, forgotPassword, resetPassword } = require('../controller/adminController');
-const {addMenu, updateMenu, deleteMenu, getMenus, getMenu, getOrder, getOrders, deleteOrder,} = require('../controller/orderController');
+const {addMenu, updateMenu, deleteMenu, getMenus, getMenu, getOrder, getOrders, deleteOrder} = require('../controller/orderController');
 
 router.post('/register', register);
 router.post('/login', login);
