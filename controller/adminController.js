@@ -91,14 +91,7 @@ const forgotPassword = async (req, res) => {
     }
 }
 
-/**
- * It takes a password and a token from the request body and then finds the admin with the matching
- * token. If the admin is found, it hashes the password and saves the admin. If the admin is not found,
- * it returns an error
- * @param req - The request object.
- * @param res - The response object.
- * @returns a function.
- */
+
 const resetPassword = async (req, res) => {
     const { password } = req.body;
     const token = req.params.token;
