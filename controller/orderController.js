@@ -8,6 +8,7 @@ const getMenus = async (req, res) => {
         res.send(menus)
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
     }
 }
 
@@ -29,6 +30,7 @@ const addMenu = async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
     }
 }
 
@@ -42,6 +44,7 @@ const deleteMenu = async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
     }
 }
 
@@ -55,6 +58,7 @@ const getMenu = async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
     }
 }
 
@@ -75,6 +79,7 @@ const updateMenu = async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
     }
 }
 
@@ -122,7 +127,8 @@ const order = async (req, res) => {
 
         res.status(201).json({ message: 'Order created successfully', savedOrder })
     } catch (err) {
-        res.status(500).json({ message: 'Something went wrong' })
+        res.status(500).json({ message: 'Something went wrong' });
+        console.log(err);
     }
 }
 
@@ -136,6 +142,7 @@ const getOrders = async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
     }
 }
 
@@ -149,6 +156,7 @@ const deleteOrder = async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
     }
 }
 
@@ -162,6 +170,7 @@ const getOrder = async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
     }
 }
 
@@ -182,6 +191,7 @@ const updateOrder = async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
     }
 }
 
@@ -196,6 +206,7 @@ const getOrdersByUser = async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
     }
 }
 
@@ -209,6 +220,7 @@ const getOrdersByDate = async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
     }
 }
 
@@ -226,6 +238,7 @@ const getOrdersByEmail = async (req, res) => {
         res.status(200).json({ message: 'Orders fetched successfully', orders })
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
     }
 }
 
