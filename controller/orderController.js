@@ -234,7 +234,7 @@ const getOrdersByDate = async (req, res) => {
 const getOrdersByEmail = async (req, res) => {
     const { email } = req.params.email
     try {
-        const orders = await Order.find({ customerEmail: email }).sort({createdAt: 'asc'})
+        const orders = await Order.find({ email }).sort({ createdAt: 'desc' })
         res.status(200).json({ message: 'Orders fetched successfully', orders })
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
@@ -243,5 +243,5 @@ const getOrdersByEmail = async (req, res) => {
 }
 
 /* Exporting all the functions in the file. */
-module.exports = {getMenus, addMenu, getMenu, getOrders, order, deleteOrder, getOrder, getOrders, deleteMenu, updateMenu, updateOrder, getOrdersByUser, getOrdersByDate, getOrdersByEmail}
+module.exports = { getMenus, addMenu, getMenu, getOrders, order, deleteOrder, getOrder, getOrders, deleteMenu, updateMenu, updateOrder, getOrdersByUser, getOrdersByDate, getOrdersByEmail }
 
