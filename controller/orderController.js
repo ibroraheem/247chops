@@ -224,22 +224,22 @@ const getOrdersByDate = async (req, res) => {
     }
 }
 
+
 /**
- * It takes an email address from the request body, and then it finds all the orders that match that
- * email address, and then it sorts them by the date they were created, and then it sends a response
- * with the orders.
+ * It takes an email address as a parameter, and returns all orders associated with that email address.
  * @param req - request
  * @param res - the response object
  */
-const getOrdersByEmail = async (req, res) => {
-    const { email } = req.params.email
-    try {
-        const orders = await Order.find({ customerEmail: email }).sort({ createdAt: 'desc' })
-        res.status(200).json({ message: 'Orders fetched successfully', orders })
-    } catch (err) {
-        res.status(500).json({ message: 'Something went wrong' })
-        console.log(err);
-    }
+const getOrdersByEmail = (req, res) => {
+    const email = req.params.email
+    Order.find({ customerEmail: email })
+        .then(orders => {
+            res.status(200).json({ message: 'Orders fetched successfully', orders })
+        })
+        .catch(err => {
+            res.status(500).json({ message: 'Something went wrong' })
+            console.log(err);
+        })
 }
 
 /* Exporting all the functions in the file. */
