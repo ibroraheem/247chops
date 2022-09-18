@@ -202,7 +202,7 @@ const getOrdersByUser = async (req, res) => {
     try {
         if (decoded.role === 'admin') {
             const orders = await Order.find({ customerEmail: req.params.email })
-            res.status(200).json({ message: 'Orders fetched successfully', orders })
+            res.status(200).json({ message: 'Orders fetched successfully', orders, count: orders.length })
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
@@ -215,8 +215,8 @@ const getOrdersByDate = async (req, res) => {
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
     try {
         if (decoded.role === 'admin') {
-            const orders = await Order.find({}).sort({ createdAt: 'asc' })
-            res.status(200).json({ message: 'Orders fetched successfully', orders })
+            const orders = await Order.find({}).sort({ createdAt: 'desc' })
+            res.status(200).json({ message: 'Orders fetched successfully', orders, count: orders.length })
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
@@ -230,16 +230,16 @@ const getOrdersByDate = async (req, res) => {
  * @param req - request
  * @param res - the response object
  */
-const getOrdersByEmail = (req, res) => {
+const getOrdersByEmail = async (req, res) => {
     const email = req.params.email
-    Order.find({ customerEmail: email })
-        .then(orders => {
-            res.status(200).json({ message: 'Orders fetched successfully', orders })
-        })
-        .catch(err => {
-            res.status(500).json({ message: 'Something went wrong' })
-            console.log(err);
-        })
+    try {
+        const orders = await Order.find({ customerEmail: email }).sort({ createdAt: 'desc' })
+        if (orders.length === 0) return res.status(404).json({ message: 'No orders found' })
+        res.status(200).json({ message: 'Orders fetched successfully', orders, count: orders.length })
+    } catch (err) {
+        res.status(500).json({ message: 'Something went wrong' })
+        console.log(err);
+    }
 }
 
 /* Exporting all the functions in the file. */

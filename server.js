@@ -19,6 +19,6 @@ app.get('/', (req, res) => {
 app.use('/admin', require('./routes/adminRoutes'))
 app.use('/', require('./routes/userRoutes'))
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`Server is running on port ${port}`)
 })
 
