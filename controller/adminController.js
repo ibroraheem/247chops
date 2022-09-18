@@ -52,6 +52,13 @@ const login = async (req, res) => {
 
 
 
+/**
+ * It takes the email from the request body, finds the admin with that email, creates a token, saves
+ * the token to the database, sends an email with a link to reset the password, and returns a message
+ * to the user
+ * @param req - The request object.
+ * @param res - the response object
+ */
 const forgotPassword = async (req, res) => {
     const { email } = req.body;
     try {
@@ -92,6 +99,14 @@ const forgotPassword = async (req, res) => {
 }
 
 
+/**
+ * It takes a password and a token from the request body and then finds the admin with the matching
+ * token. If the admin is found, it hashes the password and saves the admin. If the admin is not found,
+ * it returns an error
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns a function.
+ */
 const resetPassword = async (req, res) => {
     const { password } = req.body;
     const token = req.params.token;
@@ -108,4 +123,5 @@ const resetPassword = async (req, res) => {
     }
 }
 
+/* Exporting the functions. */
 module.exports = { register, login, forgotPassword, resetPassword }

@@ -1,3 +1,4 @@
+/* Importing the mongoose module. */
 const mongoose = require('mongoose')
 
 const orderSchema = new mongoose.Schema({
@@ -34,5 +35,8 @@ const orderSchema = new mongoose.Schema({
     { timestamps: true }
 )
 
+/* Creating a model called Order. */
 const Order = mongoose.model('Order', orderSchema)
+
+/* Exporting the Order model. */
 module.exports = Order

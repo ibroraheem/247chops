@@ -1,5 +1,7 @@
+/* Importing the mongoose module. */
 const mongoose = require('mongoose')
 
+/* Creating a schema for the menu model. */
 const menuSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -29,5 +31,8 @@ const menuSchema = new mongoose.Schema({
 {timestamps: true}
 )
 
+/* Creating a model for the menu schema. */
 const Menu = mongoose.model('Menu', menuSchema)
+
+/* Exporting the Menu model. */
 module.exports = Menu

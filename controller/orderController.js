@@ -1,7 +1,15 @@
+/* Importing the Menu and Order models from the model folder. It is also importing the nodemailer
+package. */
 const Menu = require('../model/menu')
 const Order = require('../model/order')
 const nodemailer = require('nodemailer')
 
+/**
+ * It's an async function that uses the mongoose model to find all the menus in the database and then
+ * sends them to the client.
+ * @param req - The request object.
+ * @param res - the response object
+ */
 const getMenus = async (req, res) => {
     try {
         const menus = await Menu.find()
@@ -12,6 +20,11 @@ const getMenus = async (req, res) => {
     }
 }
 
+/**
+ * It creates a new menu item and saves it to the database.
+ * @param req - request
+ * @param res - response
+ */
 const addMenu = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1]
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
@@ -34,6 +47,11 @@ const addMenu = async (req, res) => {
     }
 }
 
+/**
+ * It deletes a menu item from the database
+ * @param req - request
+ * @param res - the response object
+ */
 const deleteMenu = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1]
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
@@ -48,6 +66,11 @@ const deleteMenu = async (req, res) => {
     }
 }
 
+/**
+ * It gets the menu from the database and sends it to the client.
+ * @param req - request
+ * @param res - the response object
+ */
 const getMenu = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1]
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
@@ -62,6 +85,11 @@ const getMenu = async (req, res) => {
     }
 }
 
+/**
+ * It updates a menu item in the database
+ * @param req - request
+ * @param res - response
+ */
 const updateMenu = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1]
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
@@ -83,6 +111,12 @@ const updateMenu = async (req, res) => {
     }
 }
 
+/**
+ * It takes the data from the form, creates a new order, saves it to the database, sends an email to
+ * the admin and returns a response to the client.
+ * @param req - the request object
+ * @param res - {
+ */
 const order = async (req, res) => {
     const { customerName, customerEmail, customerPhone, customerAddress, orderItems, orderTotal } = req.body
     try {
@@ -132,6 +166,11 @@ const order = async (req, res) => {
     }
 }
 
+/**
+ * It gets all the orders from the database and sends them to the client.
+ * @param req - The request object.
+ * @param res - the response object
+ */
 const getOrders = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1]
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
@@ -146,6 +185,11 @@ const getOrders = async (req, res) => {
     }
 }
 
+/**
+ * It deletes an order from the database if the user is an admin.
+ * @param req - request
+ * @param res - the response object
+ */
 const deleteOrder = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1]
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
@@ -160,6 +204,11 @@ const deleteOrder = async (req, res) => {
     }
 }
 
+/**
+ * It gets an order by id, but only if the user is an admin.
+ * @param req - request
+ * @param res - the response object
+ */
 const getOrder = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1]
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
@@ -174,6 +223,11 @@ const getOrder = async (req, res) => {
     }
 }
 
+/**
+ * It takes the order id from the url, and updates the order with the new data from the request body.
+ * @param req - request
+ * @param res - response
+ */
 const updateOrder = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1]
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
@@ -190,11 +244,21 @@ const updateOrder = async (req, res) => {
             res.status(200).json({ message: 'Order updated successfully' })
         }
     } catch (err) {
+/**
+ * It gets all the orders of a user by email.
+ * @param req - request
+ * @param res - the response object
+ */
         res.status(500).json({ message: 'Something went wrong' })
         console.log(err);
     }
 }
 
+/**
+ * It gets all the orders of a user by email.
+ * @param req - request
+ * @param res - the response object
+ */
 const getOrdersByUser = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1]
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
@@ -210,6 +274,11 @@ const getOrdersByUser = async (req, res) => {
     }
 }
 
+/**
+ * It fetches all the orders from the database and sorts them by date in descending order.
+ * @param req - request
+ * @param res - the response object
+ */
 const getOrdersByDate = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1]
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET)

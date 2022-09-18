@@ -16,4 +16,5 @@ const connectDB = () => {
     console.log('MongoDB Connected')
 }
 
+/* Exporting the connectDB function so that it can be used in other files. */
 module.exports = connectDB
