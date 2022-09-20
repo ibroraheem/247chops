@@ -177,7 +177,7 @@ const getOrders = async (req, res) => {
     try {
         if (decoded.role === 'admin') {
             const orders = await Order.find()
-            res.send(orders)
+            res.status(200).json({ message: 'Orders fetched successfully', orders, count: orders.length })
         }
     } catch (err) {
         res.status(500).json({ message: 'Something went wrong' })
@@ -244,11 +244,6 @@ const updateOrder = async (req, res) => {
             res.status(200).json({ message: 'Order updated successfully' })
         }
     } catch (err) {
-/**
- * It gets all the orders of a user by email.
- * @param req - request
- * @param res - the response object
- */
         res.status(500).json({ message: 'Something went wrong' })
         console.log(err);
     }
@@ -311,6 +306,17 @@ const getOrdersByEmail = async (req, res) => {
     }
 }
 
+const getCustomers = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1]
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+    try {
+        if (decoded.role !== 'admin') return res.status(401).json({ message: 'Unauthorized' })
+        const customers = await Order.find().distinct('customerEmail')
+        res.status(200).json({ message: 'Customers fetched successfully', customers, count: customers.length })
+    } catch (err) {
+        res.status(500).json({ message: 'Something went wrong' })
+    }
+}
 /* Exporting all the functions in the file. */
-module.exports = { getMenus, addMenu, getMenu, getOrders, order, deleteOrder, getOrder, getOrders, deleteMenu, updateMenu, updateOrder, getOrdersByUser, getOrdersByDate, getOrdersByEmail }
+module.exports = { getMenus, addMenu, getMenu, getOrders, order, deleteOrder, getOrder, getOrders, deleteMenu, updateMenu, updateOrder, getOrdersByUser, getOrdersByDate, getOrdersByEmail, getCustomers }
 
