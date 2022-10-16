@@ -31,6 +31,7 @@ app.use('/admin', require('./routes/adminRoutes'))
 
 /* Importing the userRoutes.js file and using it as a middleware. */
 app.use('/', require('./routes/userRoutes'))
+app.use('/', require('./routes/paymentRoutes'))
 
 /* Listening to the port that is defined in the .env file. */
 app.listen(port, () => {

@@ -3,6 +3,7 @@ package. */
 const Menu = require('../model/menu')
 const Order = require('../model/order')
 const nodemailer = require('nodemailer')
+const Paystack = require('paystack-node')
 
 /**
  * It's an async function that uses the mongoose model to find all the menus in the database and then
@@ -317,6 +318,31 @@ const getCustomers = async (req, res) => {
         res.status(500).json({ message: 'Something went wrong' })
     }
 }
-/* Exporting all the functions in the file. */
-module.exports = { getMenus, addMenu, getMenu, getOrders, order, deleteOrder, getOrder, getOrders, deleteMenu, updateMenu, updateOrder, getOrdersByUser, getOrdersByDate, getOrdersByEmail, getCustomers }
+
+const pay = async (req, res) => {
+    try {
+        const { amount, email, fullName } = req.body
+        const initializePayment = async (email, fullName, amount) => {
+            const response = await axios.post('https://api.paystack.co/transaction/initialize', {
+                email,
+                amount,
+                fullName
+            }, {
+                headers: {
+                    authorization: `Bearer ${process.env.secretKey}`,
+                    'content-type': 'application/json',
+                    'cache-control': 'no-cache'
+                }
+            })
+            return response
+        }
+        const response = await initializePayment(email, fullName, amount)
+        res.status(200).json({ message: 'Payment initialized successfully', response: response.data })
+    } catch (error) {
+        res.status(500).json({ message: 'Something went wrong' })
+        console.log(error.message);
+    }
+}
+    /* Exporting all the functions in the file. */
+    module.exports = { getMenus, addMenu, getMenu, getOrders, order, deleteOrder, getOrder, getOrders, deleteMenu, updateMenu, updateOrder, getOrdersByUser, getOrdersByDate, getOrdersByEmail, getCustomers }
 

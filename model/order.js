@@ -31,6 +31,10 @@ const orderSchema = new mongoose.Schema({
         enum: ['pending', 'confirmed', 'delivered', 'cancelled'],
         default: 'pending'
     },
+    reference: {
+        type: String,
+        required: true
+    }
 },
     { timestamps: true }
 )
